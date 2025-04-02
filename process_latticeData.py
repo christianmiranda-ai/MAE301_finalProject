@@ -20,12 +20,14 @@ stds = df_peak.groupby("Topology")["PSI"].std()
 print("Means:\n", means)
 print("Standard Deviations:\n", stds)
 
+'''
 # ANOVA
 cubic = df_peak[df_peak["Topology"] == "cubic"]["PSI"]
 octet = df_peak[df_peak["Topology"] == "octet"]["PSI"]
 gyroid = df_peak[df_peak["Topology"] == "gyroid"]["PSI"]
 f_stat, p_val = f_oneway(cubic, octet, gyroid)
-print(f"ANOVA: F={f_stat}, p={p_val}")
+print(f"ANOVA: F={f_stat}, p={p_val}")'
+'''
 
 # Save processed data
 df_peak.to_csv("lattice_processed.csv", index=False)
