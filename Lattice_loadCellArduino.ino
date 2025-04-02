@@ -1,4 +1,6 @@
 # the following is code meant to later interface (if needed) an Amazon-sourced load cell with an HX711 load cell amplifier
+# NOTE: you'd need PLX-DAQ to write the data out to Excel live!
+
 #include "HX711.h"
 #define DOUT 2  // Data pin to Mega 2560
 #define CLK  3  // Clock pin to Mega 2560
