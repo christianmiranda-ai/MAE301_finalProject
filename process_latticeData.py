@@ -1,7 +1,10 @@
 # process_latticeData.py
 import pandas as pd
 import numpy as np
-from scipy.stats import f_oneway
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import f_oneway, shapiro, levene
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
 
 # Read CSV
 df = pd.read_csv("lattice_data.csv", encoding="windows-1252")
