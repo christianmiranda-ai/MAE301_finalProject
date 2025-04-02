@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import f_oneway
 
 # Read CSV (exported from Excel or PLX-DAQ)
-df = pd.read_csv("lattice_data.csv")  # Adjust path if needed
+df = pd.read_csv("lattice_data.csv", encoding="windows-1252")  # adjusted with new encoding due to error
 
 # Assume you manually add a "Topology" column (cubic, octet, gyroid) in Excel
 # Example data structure: Time (ms), Force (kg), Topology
