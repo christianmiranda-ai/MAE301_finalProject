@@ -56,7 +56,8 @@ sns.boxplot(x="Topology", y="PSI", data=df, palette="Set2")
 plt.title("PSI Distribution by Topology")
 plt.ylabel("PSI")
 plt.xlabel("Topology")
-plt.show()
+output_file("stress_strain_plot.html")
+
 
 # resave data
 df.to_csv("lattice_processed.csv", index=False)
