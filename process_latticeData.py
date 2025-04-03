@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import f_oneway, shapiro, levene
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
+from bokeh.plotting import figure, output_file, save
+from bokeh.models import HoverTool
 
 # begin reading the data from the csv
 df = pd.read_csv("lattice_data.csv", encoding="windows-1252")
@@ -50,14 +52,23 @@ for topology in df["Topology"].unique():
     stiffness[topology] = slope
     print(f"Estimated Stiffness for {topology}: {slope:.4f} PSI/strain")
 
-# visualization
-plt.figure(figsize=(10, 6))
-sns.boxplot(x="Topology", y="PSI", data=df, palette="Set2")
-plt.title("PSI Distribution by Topology")
-plt.ylabel("PSI")
-plt.xlabel("Topology")
-output_file("stress_strain_plot.html")
+# end calcs! ---------- ---------- ---------- ---------- ----------
+# bokeh stuff
 
+output_file("docs/interactive_plot.html") #generating file for static interactive github pages
 
-# resave data
-df.to_csv("lattice_processed.csv", index=False)
+# plotting graph framework
+figurePlot = figure(title="Stress-Strain Curve", x_axis_label="Strain", y_axis_label="Stress (PSI)", width=800, height=500)
+
+# hover tool addition (consider removing if needed)
+hover = HoverTool(tooltips=[("Topology", "@Topology"),("Stress", "@y"),("Strain","@x")])
+figurePlot.add_tools(hover)
+
+for topology in df["Topology"].unique(): # plots the relative stress-strain curve of a given topology type
+    subset = df[df["Topology"] == topology]
+    figurePlot.line(subset["Strain"], subset["Stress"], legend_label=topology, line_width=2)
+
+save(figurePlot)
+
+df.to_csv("lattice_processed.csv", index=False) #resave processed data to overwrite original file
+
