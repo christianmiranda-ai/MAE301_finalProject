@@ -1,4 +1,6 @@
 # process_latticeData.py
+
+# library import:
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -21,28 +23,29 @@ stds = df.groupby("Topology")["PSI"].std()
 print("Means:\n", means)
 print("Standard Deviations:\n", stds)
 
-# checking to see if the data follows normal distribution via Shapiro-Wilk's test
+# checking to see if the data follows normal distribution via Shapiro-Wilk's test (STEP 1A)
 for topology in df["Topology"].unique():
     stat, p = shapiro(df[df["Topology"] == topology]["PSI"])
     print(f"Shapiro-Wilk Test for {topology}: W={stat:.4f}, p={p:.4f}")
 
-# checking to see if variance is equal across all topologies via Levene's test
+# checking to see if variance is equal across all topologies via Levene's test (STEP 1B)
 levene_stat, levene_p = levene(*[df[df["Topology"] == t]["PSI"] for t in df["Topology"].unique()])
 print(f"Levene's Test: Stat={levene_stat:.4f}, p={levene_p:.4f}")
 
 # using one-way ANOVA to check if at least one group's mean differs from the rest (testing null hypothesis)
+# this is (STEP 2)
 anova_stat, anova_p = f_oneway(*[df[df["Topology"] == t]["PSI"] for t in df["Topology"].unique()])
 print(f"ANOVA: Stat={anova_stat:.4f}, p={anova_p:.4f}")
 
-# if ANOVA IS significant, applying tukey's HSD test to see WHICH differ from the rest
+# if ANOVA IS significant, applying tukey's HSD test to see WHICH differ from the rest (STEP 3)
 if anova_p < 0.05:
     tukey_results = pairwise_tukeyhsd(df["PSI"], df["Topology"], alpha=0.05)
     print(tukey_results)
 
 # estimating the elastic modulus calculation, ASSUMING that deformation is linear and thus
-# the displacement is proportionate to the time
+# the displacement is proportionate to the time (STEP 5)
 df["Stress"] = df["PSI"]  # using previous calcs/data to develop the stress side of the curve
-df["Strain"] = df["Time (ms)"] / max(df["Time (ms)"])  # 
+df["Strain"] = df["Time (ms)"] / max(df["Time (ms)"])  # now using "linear time/displacement" idea 4 strain
 
 # stiffness calculation for each topology
 stiffness = {}
@@ -55,7 +58,7 @@ for topology in df["Topology"].unique():
 # end calcs! ---------- ---------- ---------- ---------- ----------
 # bokeh stuff
 
-output_file("docs/interactive_plot.html") #generating file for static interactive github pages
+output_file("interactive_plot.html") #generating file for static interactive github pages
 
 # plotting graph framework
 figurePlot = figure(title="Stress-Strain Curve", x_axis_label="Strain", y_axis_label="Stress (PSI)", width=800, height=500)
@@ -72,3 +75,4 @@ save(figurePlot)
 
 df.to_csv("lattice_processed.csv", index=False) #resave processed data to overwrite original file
 
+print("Interactive Bokeh plot saved and ready to  be hosted") # test
