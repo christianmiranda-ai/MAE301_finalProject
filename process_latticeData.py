@@ -86,7 +86,7 @@ for i, topology in enumerate(df["Topology"].unique()):
     box_plot.segment(x0=[topology], y0=q3, x1=[topology], y1=upper, color="black")
     box_plot.segment(x0=[topology], y0=q1, x1=[topology], y1=lower, color="black")
     box_plot.scatter(x=[topology]*len(outliers), y=outliers, size=10, color="red", legend_label="Outliers")
-box_plot.add_tools(HoverTool(tooltips=[("Topology", "@x"), ("Median", f"{q2:.2f}"), ("Q1", f"{q1:.2f}"), ("Q3", f"{q3:.2f}")])))
+box_plot.add_tools(HoverTool(tooltips=[("Topology", "@x"), ("Median", f"{q2:.2f}"), ("Q1", f"{q1:.2f}"), ("Q3", f"{q3:.2f}")]))
 save(box_plot)
 
 # 3. Scatter Plot: Individual PSI
