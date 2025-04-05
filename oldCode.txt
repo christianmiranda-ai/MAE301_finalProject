@@ -1,0 +1,17 @@
+    <section>
+            <h2>Abstract</h2>
+            <p>
+                This study examines the mechanical performance of various lattice unit cell topologies in stereolithography (SLA) 3D-printed parts. 
+                By analyzing stress distribution, deformation behavior, and overall structural efficiency, we aim to optimize lattice structures 
+                for engineering applications.
+            </p>
+        </section>
+
+        <section>
+            <h2>Main Analysis</h2>
+            <p>
+                Lattice structures are widely used in aerospace, biomedical, and automotive applications due to their high strength-to-weight ratio.
+                Different unit cell designs can significantly influence mechanical performance. We compare the response of different topologies 
+                under applied loads, considering factors such as stiffness, failure modes, and manufacturability.
+            </p>
+        </section>
